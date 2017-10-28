@@ -29,9 +29,52 @@ public class Main extends LinearOpMode {
     waitForStart();
 
     while(opModeIsActive()) {
+      telemetry.addData("Status", "Running");
 
-      // Add Data
-      telemetry.update();
-    }
+                  drivePower = -this.gamepad1.left_stick_y;
+                  turnPower = -this.gamepad1.right_stick_x;
+                  //arcade drive
+                  chassis.motorLeft.setPower(drivePower - turnPower);
+                  chassis.motorRight.setPower(drivePower + turnPower);
+
+                  if(gamepad1.left_bumper){
+                      chassis.intakeOn = true;
+                  }
+                  if(gamepad1.right_bumper){
+                      chassis.intakeOn = false;
+                  }
+                  //reverse the intakes to spit out glyphs
+                  if(gamepad1.x){
+                      chassis.intakeLeft.setPower(-1);
+                      chassis.intakeRight.setPower(-1);
+                  }
+                  if(glyphSwitch.getState() == false){
+                      chassis.intakeOn = false;
+                  }else{}
+                  if(intakeOn == true){
+                      chassis.intakeLeft.setPower(INTAKE_POWER);
+                      chassis.intakeRight.setPower(INTAKE_POWER);
+                  } else {
+                      chassis.intakeLeft.setPower(0);
+                      chassis.intakeRight.setPower(0);
+                  }
+                  // else if(intakeOn == false){
+                  //     intakeLeft.setPower(0);
+                  //     intakeRight.setPower(0);
+                  }
+                  if(gamepad1.a){
+                      chassis.armServo.setPosition(ARM_EXTENDED);
+                  }
+                  if(gamepad1.b){
+                      chassis.armServo.setPosition(ARM_RETRACTED);
+                  }
+
+                  //report values to drive station
+                  telemetry.addData("LeftPower", chassis.motorLeft.getPower());
+                  telemetry.addData("RightPower", chassis.motorRight.getPower());
+                  telemetry.addData("IntakeOn", chassis.intakeOn);
+                  telemetry.update();
+
+      }
   }
 }

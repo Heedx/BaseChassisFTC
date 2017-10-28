@@ -21,9 +21,6 @@ public class Chassis {
   double driveRightPower = 0;
   double drivePower = 0;
   double turnPower = 0;
-  double INTAKE_POWER = 1;
-  double ARM_EXTENDED = 0.0;
-  double ARM_RETRACTED = 0.5;
   boolean intakeOn = false;
 
 
